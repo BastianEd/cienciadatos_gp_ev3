@@ -171,7 +171,7 @@ googleplaystore.csv
 | Nombre | GitHub |
 |---|---|
 | Bastian | [@BastianEd](https://github.com/BastianEd) |
-| _(agregar integrantes)_ | — |
+| Nicolas | [@Excintium](https://github.com/Excintium) |
 
 ---
 

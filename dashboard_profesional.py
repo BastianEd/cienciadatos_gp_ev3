@@ -102,6 +102,142 @@ app.index_string = '''
             body {
                 background-color: #F8F9FA;
             }
+            
+            /* ════════════════════════════════════════ */
+            /* ESTILOS AGRESIVOS PARA REACT-SELECT    */
+            /* ════════════════════════════════════════ */
+            
+            /* Control principal del dropdown */
+            div[class*="Select-control"] {
+                background-color: #FFFFFF !important;
+                border-color: #CCCCCC !important;
+                color: #1E2761 !important;
+            }
+            
+            /* Valor seleccionado */
+            div[class*="Select-value"] {
+                color: #1E2761 !important;
+            }
+            
+            div[class*="Select-value-label"] {
+                color: #1E2761 !important;
+            }
+            
+            /* Input dentro del select */
+            div[class*="Select-input"] {
+                color: #1E2761 !important;
+            }
+            
+            div[class*="Select-input"] input {
+                color: #1E2761 !important;
+            }
+            
+            /* Menú desplegable */
+            div[class*="Select-menu-outer"] {
+                background-color: #FFFFFF !important;
+            }
+            
+            div[class*="Select-menu"] {
+                background-color: #FFFFFF !important;
+            }
+            
+            /* Opciones individuales */
+            div[class*="Select-option"] {
+                color: #1E2761 !important;
+                background-color: #FFFFFF !important;
+            }
+            
+            div[class*="Select-option"]:hover {
+                background-color: #F0F0F0 !important;
+                color: #1E2761 !important;
+            }
+            
+            div[class*="Select-option"][class*="is-selected"] {
+                background-color: #02C39A !important;
+                color: #FFFFFF !important;
+            }
+            
+            div[class*="Select-option"][class*="is-focused"] {
+                background-color: #E8F4F8 !important;
+                color: #1E2761 !important;
+            }
+            
+            /* Placeholder */
+            div[class*="Select-placeholder"] {
+                color: #999999 !important;
+            }
+            
+            /* Arrow indicator */
+            div[class*="Select-arrow-zone"] {
+                color: #1E2761 !important;
+            }
+            
+            span[class*="Select-arrow"] {
+                border-top-color: #1E2761 !important;
+            }
+            
+            /* ════════════════════════════════════════ */
+            /* ESTILOS PARA RC-SLIDER (RANGE SLIDER)   */
+            /* ════════════════════════════════════════ */
+            
+            .rc-slider {
+                background: transparent !important;
+            }
+            
+            .rc-slider-track {
+                background-color: #02C39A !important;
+                height: 6px !important;
+            }
+            
+            .rc-slider-rail {
+                background-color: #D0D0D0 !important;
+                height: 6px !important;
+            }
+            
+            .rc-slider-handle {
+                background-color: #02C39A !important;
+                border: 2px solid #028090 !important;
+                width: 18px !important;
+                height: 18px !important;
+                margin-top: -6px !important;
+            }
+            
+            .rc-slider-handle:hover {
+                border-color: #028090 !important;
+            }
+            
+            /* MARCAS DE NÚMEROS - MÁS AGRESIVO */
+            .rc-slider-mark {
+                margin-top: 10px !important;
+            }
+            
+            .rc-slider-mark-text {
+                color: #1E2761 !important;
+                font-weight: bold !important;
+                font-size: 13px !important;
+                fill: #1E2761 !important;
+            }
+            
+            /* Números como texto SVG */
+            .rc-slider-mark-text tspan {
+                fill: #1E2761 !important;
+            }
+            
+            /* Fallback para cualquier elemento de texto */
+            span.rc-slider-mark-text,
+            text.rc-slider-mark-text {
+                color: #1E2761 !important;
+                fill: #1E2761 !important;
+            }
+            
+            .rc-slider-dot {
+                background-color: #FFFFFF !important;
+                border-color: #D0D0D0 !important;
+            }
+            
+            .rc-slider-dot-active {
+                border-color: #02C39A !important;
+            }
         </style>
     </head>
     <body>
@@ -133,52 +269,58 @@ sidebar = dbc.Col(
         # Filtro 1: Categoría
         html.Div(
             [
-                html.Label("📂 CATEGORÍA", style={"fontWeight": "700", "fontSize": "0.85rem", "color": COLORS["accent"]}),
-                dcc.Dropdown(
-                    id='filtro_categoria',
-                    options=[{'label': '✓ Todas las Categorías', 'value': 'ALL'}] + 
-                            [{'label': f"  {c}", 'value': c} for c in sorted(df['Category'].unique())],
-                    value='ALL',
-                    clearable=False,
-                    style={"fontSize": "0.95rem"},
-                    className="mb-4"
+                html.Label("📂 CATEGORÍA", style={"fontWeight": "700", "fontSize": "0.85rem", "color": COLORS["dark"], "display": "block", "marginBottom": "8px"}),
+                html.Div(
+                    dcc.Dropdown(
+                        id='filtro_categoria',
+                        options=[{'label': '✓ Todas las Categorías', 'value': 'ALL'}] + 
+                                [{'label': f"  {c}", 'value': c} for c in sorted(df['Category'].unique())],
+                        value='ALL',
+                        clearable=False,
+                        style={"width": "100%", "color": "#1E2761"},
+                    ),
+                    style={"backgroundColor": "#FFFFFF", "borderRadius": "4px", "overflow": "hidden"}
                 )
             ],
-            className="mb-4"
+            style={"marginBottom": "1.2rem"}
         ),
         
         # Filtro 2: Tipo
         html.Div(
             [
-                html.Label("💰 TIPO", style={"fontWeight": "700", "fontSize": "0.85rem", "color": COLORS["accent"]}),
-                dcc.Dropdown(
-                    id='filtro_tipo',
-                    options=[{'label': '✓ Todos los Tipos', 'value': 'ALL'},
-                            {'label': '  Free', 'value': 'Free'},
-                            {'label': '  Paid', 'value': 'Paid'}],
-                    value='ALL',
-                    clearable=False,
-                    style={"fontSize": "0.95rem"},
-                    className="mb-4"
+                html.Label("💰 TIPO", style={"fontWeight": "700", "fontSize": "0.85rem", "color": COLORS["dark"], "display": "block", "marginBottom": "8px"}),
+                html.Div(
+                    dcc.Dropdown(
+                        id='filtro_tipo',
+                        options=[{'label': '✓ Todos los Tipos', 'value': 'ALL'},
+                                {'label': '  Free', 'value': 'Free'},
+                                {'label': '  Paid', 'value': 'Paid'}],
+                        value='ALL',
+                        clearable=False,
+                        style={"width": "100%", "color": "#1E2761"},
+                    ),
+                    style={"backgroundColor": "#FFFFFF", "borderRadius": "4px", "overflow": "hidden"}
                 )
             ],
-            className="mb-4"
+            style={"marginBottom": "1.2rem"}
         ),
         
         # Filtro 3: Rating Mínimo
         html.Div(
             [
-                html.Label("⭐ RATING MÍNIMO", style={"fontWeight": "700", "fontSize": "0.85rem", "color": COLORS["accent"]}),
-                dcc.RangeSlider(
-                    id='filtro_rating',
-                    min=0, max=5, step=0.5,
-                    value=[0, 5],
-                    marks={i: str(i) for i in range(6)},
-                    className="mb-4",
-                    tooltip={"placement": "bottom", "always_visible": False}
+                html.Label("⭐ RATING MÍNIMO", style={"fontWeight": "700", "fontSize": "0.85rem", "color": COLORS["dark"], "display": "block", "marginBottom": "8px"}),
+                html.Div(
+                    dcc.RangeSlider(
+                        id='filtro_rating',
+                        min=0, max=5, step=0.5,
+                        value=[0, 5],
+                        marks={i: str(i) for i in range(6)},
+                        tooltip={"placement": "bottom", "always_visible": False},
+                    ),
+                    style={"backgroundColor": "#ECE8E8", "padding": "12px", "borderRadius": "4px", "color":" black"}
                 )
             ],
-            className="mb-4"
+            style={"marginBottom": "1.2rem"}
         ),
         
         # Stats en Sidebar
@@ -283,7 +425,7 @@ app.layout = dbc.Container(
                         [
                             html.H1("Google Play Store Analytics", style={"marginBottom": "0.5rem", "color": COLORS["primary"]}),
                             html.P("Análisis interactivo del ecosistema de aplicaciones móviles", 
-                                   style={"color": "#666", "fontSize": "1rem", "marginBottom": "0"})
+                                style={"color": "#666", "fontSize": "1rem", "marginBottom": "0"})
                         ],
                         style={"paddingTop": "2rem", "paddingBottom": "1.5rem", "borderBottom": f"2px solid {COLORS['light']}"}
                     ),
@@ -465,17 +607,21 @@ def actualizar_dashboard(cat_sel, tipo_sel, rating_range):
     # 1. SCATTER: Installs vs Reviews
     # ───────────────────────────────────────────────────────────────────────────
     
+# ───────────────────────────────────────────────────────────────────────────
+    # 1. SCATTER: Installs vs Reviews (SIN LOG)
+    # ───────────────────────────────────────────────────────────────────────────
+    
     fig_scatter = px.scatter(
         dff,
-        x='Reviews_log',
-        y='Installs_log',
+        x='Reviews',                    # ← Cambio: sin _log
+        y='Installs',                   # ← Cambio: sin _log
         color='Type',
         size='Rating',
         hover_name='App',
-        hover_data={'Reviews_log': False, 'Installs_log': False, 'Rating': ':.2f', 'Type': True},
+        hover_data={'Reviews': ':.0f', 'Installs': ':.0f', 'Rating': ':.2f', 'Type': True},
         color_discrete_map={'Free': COLORS["success"], 'Paid': COLORS["info"]},
         title="Relación: Reviews vs Installs",
-        labels={'Reviews_log': 'Reviews (log)', 'Installs_log': 'Installs (log)', 'Type': 'Tipo'}
+        labels={'Reviews': 'Reviews', 'Installs': 'Installs', 'Type': 'Tipo'}  # ← Etiquetas actualizadas
     )
     fig_scatter.update_layout(
         template='plotly_white',
@@ -487,8 +633,15 @@ def actualizar_dashboard(cat_sel, tipo_sel, rating_range):
         showlegend=True,
         legend=dict(x=0.02, y=0.98, bgcolor='rgba(255,255,255,0.8)', bordercolor=COLORS["primary"], borderwidth=1)
     )
-    fig_scatter.update_xaxes(showgrid=True, gridwidth=1, gridcolor='rgba(0,0,0,0.05)')
-    fig_scatter.update_yaxes(showgrid=True, gridwidth=1, gridcolor='rgba(0,0,0,0.05)')
+    # ← Cambio: Agregar escala logarítmica a los ejes (opcional, para mejor visualización con rangos amplios)
+    fig_scatter.update_xaxes(
+        showgrid=True, gridwidth=1, gridcolor='rgba(0,0,0,0.05)',
+        type='log'  # Mantiene visual logarítmica pero muestra números reales
+    )
+    fig_scatter.update_yaxes(
+        showgrid=True, gridwidth=1, gridcolor='rgba(0,0,0,0.05)',
+        type='log'  # Mantiene visual logarítmica pero muestra números reales
+    )
     
     # ───────────────────────────────────────────────────────────────────────────
     # 2. PIE: Free vs Paid

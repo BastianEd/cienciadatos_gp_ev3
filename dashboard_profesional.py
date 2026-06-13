@@ -283,7 +283,7 @@ app.layout = dbc.Container(
                         [
                             html.H1("Google Play Store Analytics", style={"marginBottom": "0.5rem", "color": COLORS["primary"]}),
                             html.P("Análisis interactivo del ecosistema de aplicaciones móviles", 
-                                   style={"color": "#666", "fontSize": "1rem", "marginBottom": "0"})
+                                style={"color": "#666", "fontSize": "1rem", "marginBottom": "0"})
                         ],
                         style={"paddingTop": "2rem", "paddingBottom": "1.5rem", "borderBottom": f"2px solid {COLORS['light']}"}
                     ),
@@ -465,17 +465,21 @@ def actualizar_dashboard(cat_sel, tipo_sel, rating_range):
     # 1. SCATTER: Installs vs Reviews
     # ───────────────────────────────────────────────────────────────────────────
     
+# ───────────────────────────────────────────────────────────────────────────
+    # 1. SCATTER: Installs vs Reviews (SIN LOG)
+    # ───────────────────────────────────────────────────────────────────────────
+    
     fig_scatter = px.scatter(
         dff,
-        x='Reviews_log',
-        y='Installs_log',
+        x='Reviews',                    # ← Cambio: sin _log
+        y='Installs',                   # ← Cambio: sin _log
         color='Type',
         size='Rating',
         hover_name='App',
-        hover_data={'Reviews_log': False, 'Installs_log': False, 'Rating': ':.2f', 'Type': True},
+        hover_data={'Reviews': ':.0f', 'Installs': ':.0f', 'Rating': ':.2f', 'Type': True},
         color_discrete_map={'Free': COLORS["success"], 'Paid': COLORS["info"]},
         title="Relación: Reviews vs Installs",
-        labels={'Reviews_log': 'Reviews (log)', 'Installs_log': 'Installs (log)', 'Type': 'Tipo'}
+        labels={'Reviews': 'Reviews', 'Installs': 'Installs', 'Type': 'Tipo'}  # ← Etiquetas actualizadas
     )
     fig_scatter.update_layout(
         template='plotly_white',
@@ -487,8 +491,15 @@ def actualizar_dashboard(cat_sel, tipo_sel, rating_range):
         showlegend=True,
         legend=dict(x=0.02, y=0.98, bgcolor='rgba(255,255,255,0.8)', bordercolor=COLORS["primary"], borderwidth=1)
     )
-    fig_scatter.update_xaxes(showgrid=True, gridwidth=1, gridcolor='rgba(0,0,0,0.05)')
-    fig_scatter.update_yaxes(showgrid=True, gridwidth=1, gridcolor='rgba(0,0,0,0.05)')
+    # ← Cambio: Agregar escala logarítmica a los ejes (opcional, para mejor visualización con rangos amplios)
+    fig_scatter.update_xaxes(
+        showgrid=True, gridwidth=1, gridcolor='rgba(0,0,0,0.05)',
+        type='log'  # Mantiene visual logarítmica pero muestra números reales
+    )
+    fig_scatter.update_yaxes(
+        showgrid=True, gridwidth=1, gridcolor='rgba(0,0,0,0.05)',
+        type='log'  # Mantiene visual logarítmica pero muestra números reales
+    )
     
     # ───────────────────────────────────────────────────────────────────────────
     # 2. PIE: Free vs Paid

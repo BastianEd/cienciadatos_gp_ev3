@@ -20,12 +20,12 @@ proyecto-googleplay-ev3/
 │
 ├── data/
 │   └── raw/
-│       └── googleplaystore.csv       # Dataset original (10.841 registros, 13 columnas)
+│       └── googleplaystore.csv              # Dataset original (10.841 registros, 13 columnas)
 │
-├── docs/
-│   └── README.md                     # Este archivo
-│
-└── Evaluacion_3_GooglePlay_Pipeline.ipynb   # Notebook principal
+├── README.md                                 # Este archivo
+├── requirements.txt                          # Dependencias de Python
+├── Evaluacion_3_GooglePlay_Pipeline.ipynb    # Notebook principal (EDA, preprocesamiento, modelado, clustering)
+└── dashboard_profesional.py                  # Dashboard interactivo con Dash
 ```
 
 ---
@@ -56,48 +56,41 @@ Fuente: [Kaggle — Google Play Store Apps](https://www.kaggle.com/datasets/lava
 
 Python 3.8 o superior. Se recomienda usar un entorno virtual.
 
-```bash
-pip install pandas numpy matplotlib seaborn plotly scikit-learn dash
-```
-
-O bien, instalar desde un archivo de dependencias:
+### Instalación de dependencias
 
 ```bash
 pip install -r requirements.txt
 ```
 
-`requirements.txt` sugerido:
+### Librerías necesarias
 
-```
-pandas>=1.5
-numpy>=1.23
-matplotlib>=3.6
-seaborn>=0.12
-plotly>=5.13
-scikit-learn>=1.2
-dash>=2.9
-```
+| Librería | Propósito |
+|---|---|
+| `pandas` | Manipulación y análisis de datos |
+| `numpy` | Operaciones numéricas y álgebra lineal |
+| `matplotlib` | Visualizaciones estáticas |
+| `seaborn` | Visualizaciones estadísticas avanzadas |
+| `plotly` | Visualizaciones interactivas |
+| `scikit-learn` | Machine Learning (preprocesamiento, modelado, clustering) |
+| `dash` | Framework web para dashboards interactivos |
+| `dash-bootstrap-components` | Componentes Bootstrap para Dash |
+
+**Nota:** El archivo `requirements.txt` incluye todas estas dependencias con versiones mínimas especificadas.
 
 ---
 
 ## Cómo ejecutar
 
-### 1. Clonar el repositorio
+### Requisitos previos
 
-```bash
-git clone https://github.com/BastianEd/cienciadatos_gp_ev3.git
-cd cienciadatos_gp_ev3/proyecto-googleplay-ev3
-```
+1. Clonar o descargar el repositorio
+2. Asegurar que el archivo `googleplaystore.csv` esté en `data/raw/googleplaystore.csv`
+3. Instalar las dependencias:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-### 2. Colocar el dataset
-
-Asegurarse de que el archivo `googleplaystore.csv` esté en:
-
-```
-data/raw/googleplaystore.csv
-```
-
-### 3. Abrir el notebook
+### A: Ejecutar el Notebook (análisis completo)
 
 ```bash
 jupyter notebook Evaluacion_3_GooglePlay_Pipeline.ipynb
@@ -109,33 +102,61 @@ O con JupyterLab:
 jupyter lab Evaluacion_3_GooglePlay_Pipeline.ipynb
 ```
 
-Ejecutar todas las celdas en orden con **Run All**.
+**Pasos:**
+1. Ejecutar todas las celdas en orden con **Run All** o celda por celda
+2. El notebook incluye:
+   - Exploración y diagnóstico (EDA)
+   - Preprocesamiento y limpieza
+   - Análisis descriptivo
+   - Ingeniería de variables
+   - Modelado supervisado (Free vs Paid)
+   - Clustering (K-Means + PCA)
+   - Validación de integridad
 
-### 4. Levantar el dashboard
+### B: Ejecutar el Dashboard independiente
 
-Al final del notebook, descomentar la última línea de la celda del dashboard:
+Si desea ejecutar solo el dashboard profesional sin necesidad de Jupyter:
 
-```python
-app.run(debug=False, port=8050)
+```bash
+python dashboard_profesional.py
 ```
 
 Luego abrir en el navegador: [http://127.0.0.1:8050](http://127.0.0.1:8050)
 
+**Nota:** El dashboard requiere que el dataset `googleplaystore.csv` esté en `data/raw/googleplaystore.csv`.
+
 ---
 
-## Contenido del notebook
+## Contenido del proyecto
+
+### Notebook: `Evaluacion_3_GooglePlay_Pipeline.ipynb`
 
 | Sección | Descripción |
 |---|---|
-| EDA | Carga del dataset, auditoría de nulos, duplicados y distribuciones |
-| Preprocesamiento | Parseo de columnas numéricas, imputación, outliers por IQR, reglas de consistencia |
-| Análisis descriptivo | Visualizaciones por categoría, tipo y correlaciones de Spearman |
-| Ingeniería de variables | Codificación OHE, split estratificado 80/20 |
-| Modelado supervisado | Regresión Logística, Random Forest, Gradient Boosting (métricas: Accuracy, F1-macro, AUC-ROC) |
-| Clustering | K-Means (k=4) + proyección PCA, Silhouette Score |
-| Validación de integridad | Auditoría de columnas y reglas de rango sobre el dataset limpio |
-| Dashboard interactivo | KPIs, filtro por tipo de app, gráfico de categorías, scatter Installs vs Reviews, boxplot Rating |
-| Informe final | Hallazgos, decisiones técnicas, resultados de negocio y próximos pasos |
+| **Introducción** | Objetivos, estructura del proyecto y pregunta de trabajo |
+| **EDA** | Carga del dataset, auditoría de nulos, duplicados y distribuciones |
+| **Preprocesamiento** | Parseo de columnas numéricas, imputación de valores faltantes, detección de outliers por IQR, reglas de consistencia |
+| **Análisis descriptivo** | Visualizaciones por categoría, tipo de app, correlaciones de Spearman entre variables numéricas |
+| **Ingeniería de variables** | Codificación One-Hot para variables categóricas, split estratificado 80/20 |
+| **Modelado supervisado** | Comparación de 3 modelos: Regresión Logística, Random Forest, Gradient Boosting (métricas: Accuracy, F1-macro, AUC-ROC) |
+| **Clustering** | Segmentación no supervisada con K-Means (k=4) + proyección PCA, evaluación con Silhouette Score |
+| **Validación de integridad** | Auditoría de columnas y validación de reglas de rango sobre el dataset limpio |
+| **Informe final** | Hallazgos clave, decisiones técnicas, resultados de negocio y próximos pasos |
+
+### Dashboard: `dashboard_profesional.py`
+
+**Características:**
+- **Filtros interactivos:** por categoría, tipo (Free/Paid), rango de rating
+- **KPIs en tiempo real:** total de apps, apps de pago, rating promedio
+- **Visualizaciones:**
+  - Scatter plot: Installs vs Reviews (escala logarítmica)
+  - Distribución Free vs Paid
+  - Distribución de ratings
+  - Top 10 categorías
+  - Distribución por Content Rating
+  - Análisis de precios
+- **Diseño profesional:** paleta Teal Trust (#028090, #00A896, #02C39A), tipografía Cambria/Calibri, responsive layout
+- **Tecnologías:** Dash + Plotly + Bootstrap
 
 ---
 
@@ -182,8 +203,10 @@ googleplaystore.csv
 
 ---
 
-## Notas
+## Notas técnicas
 
-- El notebook es autocontenido: no requiere Docker ni servicios externos.
-- Las rutas del dataset se resuelven automáticamente entre rutas locales y Google Colab.
-- El dashboard requiere tener las celdas anteriores ejecutadas antes de correr la celda de Dash.
+- **Autocontención:** El notebook y el dashboard son autocontenidos, sin requerimientos de Docker o servicios externos.
+- **Resolución de rutas:** Ambos scripts detectan automáticamente la ubicación del dataset (`data/raw/googleplaystore.csv`) desde la carpeta raíz del proyecto.
+- **Reproducibilidad:** Se utiliza `random_state=42` en todos los procesos estocásticos (train_test_split, K-Means, etc.) para garantizar resultados reproducibles.
+- **Data leakage:** El preprocesamiento (escalado, imputación) se encapsula en pipelines de scikit-learn para evitar contaminación entre train y test.
+- **Desbalance de clases:** Se aplica `class_weight='balanced'` en Random Forest para mitigar el desbalance (mayoría de apps son Free).
